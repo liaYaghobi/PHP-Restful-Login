@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <style>
+
+.buttonregister {
+  background-color: #8cce8e; /* Green */
+  border-radius: 19px;
+  width:80px;
+  height:40px;
+}
+.buttonlogin {
+  background-color: #8cce8e; /* Green */
+  border-radius: 19px;
+  width:80px;
+  height:40px;
+}
+.logout {
+  background-color: #e36046; /* Green */
+  border-radius: 19px;
+  width:80px;
+  height:40px;
+}
+
+
+
+    </style>
+    </html>
+       <head>
+
+    </head>
+    <body>
+   </br> 
+       <h2>Returning user? Enter username and password:</h2>
+          <form class = "loginform " onsubmit="return false;">
+             <input type="text" name="user_names">
+             <input type="password" name="passwords">
+             <div >
+                <input type="hidden" name="crud_req" value="login">
+            </div>
+             <div >
+            </br> 
+                <button class = "buttonlogin"  type="submit" name="submit">Login</button>
+            </div>
+          </form>
+          <br></br> 
+         <h2> Not registered? Input desired name and password.</h2>
+          <form class = "registerform"onsubmit="return false;">
+             <input type="text" name="user_names">
+             <input type="text" name="passwords">
+             <div >
+                <input type="hidden" id= "crud_req" name="crud_req" value="register">
+            </div>
+         </br> 
+             <div >
+                <button class = "buttonregister" type="submit" name="submit">Register</button>
+            </div>
+          </form>
+    
+          <br></br> 
+        </br> 
+    </div>
+    <button class="logout">Logout</button>
+      
+        <script src="frontpage.js" defer></script>
+       </body>
+    </html>
