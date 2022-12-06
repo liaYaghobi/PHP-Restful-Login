@@ -9,19 +9,17 @@ include_once "connect.php";
 
 session_start();
 
-if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    echo 'Welcome to RESTful login System';
-    exit();
-}
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['crud_req'] == 'register')
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['crud_req'] == 'register') {
     register($conn);
-
-else if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['crud_req'] == 'login')
+}
+elseif ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['crud_req'] == 'login') {
     login($conn);
+}
 
-else if ($_SERVER['REQUEST_METHOD'] == 'GET')
+else if ($_SERVER['REQUEST_METHOD'] == 'GET'){
 logout($conn);
-
+}
 
     //---------------------------------------------------------------
 
@@ -58,6 +56,8 @@ logout($conn);
         setcookie('user', $key);
         http_response_code(200);
         echo 'welcome ' . $usr;
+       
+        
         
      }
      }
@@ -70,7 +70,7 @@ logout($conn);
         $sql = "INSERT INTO user (userName, password) VALUES ('$usr','$hash')";
   
         if ($conn->query($sql) === TRUE) {
-           print("Success!");
+           print("Success! Please Log In To Continue.");
          
            $conn->close();
          
@@ -84,13 +84,13 @@ logout($conn);
      function logout()
 {
     if (!isset($_COOKIE['user'])) {
-        echo "You are not logged in!!!";
+        echo "You are currently not logged in.";
         exit();
     }
     unset($_SESSION['user']);
     session_destroy();
     setcookie('user', false);
-    echo "You are logged out!!! " . session_status();
+    echo "Logging Out..." ;
     exit();
 }
        
