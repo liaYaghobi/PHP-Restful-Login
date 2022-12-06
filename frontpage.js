@@ -1,7 +1,7 @@
 const login = document.querySelector('.buttonlogin')
 login.addEventListener('click', () => {
     const formData = new FormData(document.querySelector('.loginform'))
-    var lstatus
+    var status
     fetch('api.php', {
             'method': 'POST',
           
@@ -10,16 +10,16 @@ login.addEventListener('click', () => {
             credentials: 'include'
         })
         .then(res => {
-            lstatus = res.status
+            status = res.status
             console.log('user cookies is ')
             console.log(res.headers.get('user'))
-            
+           
             return res.text()
         })
         .then(data => {
             console.log(document.cookie)
             alert(data)
-            if (lstatus == 200)
+            if (status == 200)
             location.href = "frontpage.html"
         })
         .catch(err => {
@@ -59,11 +59,13 @@ register.addEventListener('click', () => {
         })
 
 })
+
+
 const logout = document.querySelector(".logout")
 logout.addEventListener('click', () => {
 
     fetch('api.php', {
-
+      
           
             credentials: 'include',
             mode: 'cors'
