@@ -1,66 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
-
-    <style>
-
-.buttonregister {
-  background-color: #8cce8e; /* Green */
-  border-radius: 19px;
-  width:80px;
-  height:40px;
-}
-.buttonlogin {
-  background-color: #8cce8e; /* Green */
-  border-radius: 19px;
-  width:80px;
-  height:40px;
-}
-.logout {
-  background-color: #e36046; /* Green */
-  border-radius: 19px;
-  width:80px;
-  height:40px;
-}
-
-
-
-    </style>
-    </html>
-       <head>
-
+    <head>
+      <style>
+        .buttonregister, .buttonlogin {
+          background-color: #8cce8e; /* Green */
+          border-radius: 19px;
+          width:80px;
+          height:40px;
+        }
+        .logout, .buttondatabase {
+          background-color: #e36046; /* Green */
+          border-radius: 19px;
+          width:80px;
+          height:40px;
+        }
+      </style>
     </head>
     <body>
-   </br> 
+      <div >
+        <form class = "dataform" onsubmit="return false;">
+          <input type="hidden" name="crud_req" value="initialize">
+          <button class="buttondatabase" type="button">Initialize Database
+          </button>
+        </form>
+      </div>
        <h2>Returning user? Enter username and password:</h2>
-          <form class = "loginform " onsubmit="return false;">
+          <form class = "loginform" onsubmit="return false;">
              <input type="text" name="user_names">
              <input type="password" name="passwords">
              <div >
                 <input type="hidden" name="crud_req" value="login">
             </div>
              <div >
-            </br> 
                 <button class = "buttonlogin"  type="submit" name="submit">Login</button>
             </div>
           </form>
-          <br></br> 
          <h2> Not registered? Input desired name and password.</h2>
-          <form class = "registerform"onsubmit="return false;">
-             <input type="text" name="user_names">
-             <input type="text" name="passwords">
+          <form class = "registerform" onsubmit="return false;">
+             <input id="user" type="text" name="user_names">
+             <input id="pass" type="text" name="passwords">
+             <input id ="confirm_pass" type="text" name="confirm_password">
+             <input id ="first" type="text" name="FirstName">
+             <input id ="last" type="text" name="LastName">
+             <input id ="email" type="text" name="email">
              <div >
                 <input type="hidden" id= "crud_req" name="crud_req" value="register">
-            </div>
-         </br>   
+            </div>  
           </form>
        
           <div >
             <button class = "buttonregister" type="submit" name="submit">Register</button>
-        </div>
+          </div>
     </form>
-    
-          <br></br> 
-        </br> 
     </div>
 
     <button class="logout" >Logout</button>
