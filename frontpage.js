@@ -21,6 +21,7 @@ initialize.addEventListener('click', () => {
 const login = document.querySelector('.buttonlogin')
 login.addEventListener('click', () => {
     const formData = new FormData(document.querySelector('.loginform'))
+
     var status
     fetch('api.php', {
             'method': 'POST',
@@ -100,7 +101,7 @@ function validateInput(){
     if (pass1 !== pass2){
         document.getElementById('pass').value = '';
         document.getElementById('confirm_pass').value = '';
-        alert("Passwords do not match. Please try again.");
+        alert('Passwords dont match, please try again.');
         return false;
     }
     return true;

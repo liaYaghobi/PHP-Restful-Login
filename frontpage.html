@@ -11,7 +11,6 @@
         width: 80px;
         height: 40px;
       }
-
       .logout {
         background-color: #d3575d; /* Red */
       }
@@ -31,15 +30,15 @@
     
     <h2>Login</h2>
     <form class="loginform" onsubmit="return false;">
-      <input type="text" name="user_names" placeholder="Username"><br><br>
-      <input type="password" name="passwords" placeholder="Password">
+      <input type="text" id="login_name" name="user_names" placeholder="Username"><br><br>
+      <input type="password" id="login_pass" name="passwords" placeholder="Password">
       <input type="hidden" name="crud_req" value="login">
       <br><br>
       <button class="buttonlogin" type="submit" name="submit">Login</button>
+      <button class="logout">Logout</button>
     </form>
 
     <br><br>
-
     <h2>Not registered? Make an account!</h2>
     <form class="registerform" onsubmit="return false;">
       <input id="user" type="text" name="user_names" placeholder="Username"> <br><br>
@@ -50,14 +49,10 @@
       <input id ="email" type="text" name="email" placeholder="Email">
       <input type="hidden" name="crud_req" value="register">
       <br><br>
-      <br><br>
       <button class="buttonregister" type="submit" name="submit">Register</button>
     </form>
-
+    
     <br><br>
-
-    <button class="logout">Logout</button>
-
     <script src="frontpage.js" defer></script>
   </body>
 </html>

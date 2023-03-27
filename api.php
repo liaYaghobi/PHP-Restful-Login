@@ -20,8 +20,6 @@ elseif ($_SERVER['REQUEST_METHOD'] == 'GET'){
     logout();
 }
 
-
-
 function initialize($conn)
 {
     echo "Initializing Database..."; 
@@ -50,6 +48,14 @@ function login($conn)
     $username = $_POST["user_names"];
     $password = $_POST["passwords"];
 
+    // Check if a user is already logged in
+ 
+    if (isset($_SESSION["logged_in"]) && $_SESSION["logged_in"]) {
+        http_response_code(401);
+        echo "Another user is already logged in on this device"; 
+        return;
+    }
+
     $stmt = $conn->prepare("SELECT username, password FROM user WHERE username = ?");
     $stmt->bind_param('s', $username);
     $stmt->execute();
@@ -62,6 +68,9 @@ function login($conn)
     } else {
         $hash = $row["password"];
         if (password_verify($password, $hash)) {
+            // Set flag indicating that user is logged in
+            $_SESSION["logged_in"] = true;
+
             $key = password_hash($username, PASSWORD_DEFAULT);
             $_SESSION[$key] = $username;
             setcookie('user', $key);
@@ -74,47 +83,44 @@ function login($conn)
     }
 }
 
+function register($conn) {
+    $usr = $_POST["user_names"];
+    $hash = password_hash($_POST['passwords'], PASSWORD_DEFAULT);
+    $first = $_POST["FirstName"];
+    $last = $_POST["LastName"];
+    $email = $_POST["email"];
 
-
-function register($conn)
-     {  
-        $usr=$_POST["user_names"];
-        $hash = password_hash($_POST['passwords'], PASSWORD_DEFAULT);
-        $first =$_POST["FirstName"];
-        $last =$_POST["LastName"];
-        $email =$_POST["email"];
-
-        //check for dupe user
-        $stmt = $conn->prepare("SELECT * FROM user WHERE username = ?");
-        $stmt->execute([$usr]);
+    //check for dupe user
+    $stmt = $conn->prepare("SELECT * FROM user WHERE username = ?");
+    $stmt->bind_param('s', $usr);
+    $stmt->execute();
+    $user = $stmt->fetch();
+    if ($user) {
+        // username already exists, display an error message
+        echo 'Username already exists.';
+        return;
+    } else {
+        //check for dupe email
+        $stmt = $conn->prepare("SELECT * FROM user WHERE email = ?");
+        $stmt->bind_param('s', $email);
+        $stmt->execute();
         $user = $stmt->fetch();
         if ($user) {
-            // username already exists, return an error message
-            echo 'Username already exists.';
-            exit();
+            // email already exists, display an error message
+            echo 'Email already in use';
+            return;
+        } else {
+            $stmt = $conn->prepare("INSERT INTO user (username, password, firstName, lastName, email) VALUES (?, ?, ?, ?, ?)");
+            $stmt->bind_param('sssss', $usr, $hash, $first, $last, $email);
+            if ($stmt->execute()) {
+                echo 'Success! Please Log In To Continue.';
+                $conn->close();
+            } else {
+                echo "Error: " . $stmt->error;
+            }
         }
-        else{
-            //check for dupe email
-            $stmt = $conn->prepare("SELECT * FROM user WHERE email = ?");
-            $stmt->execute([$email]);
-            $user = $stmt->fetch();
-            if ($user) {
-                // email already exists, return an error message
-                echo 'Email already in use.';
-                exit();
-            }
-            else{//not a dup user or email
-                $sql = "INSERT INTO user (username, password, firstName, lastName, email) VALUES ('$usr','$hash', '$first', '$last', '$email')";
-                if ($conn->query($sql) === TRUE) {
-                   print("Success! Please Log In To Continue.");
-                   $conn->close();
-                }
-                else {
-                   echo "Error: " . $sql . "<br>" . $conn->error;
-                }
-            }
-        } 
-     }
+    }
+}
 
 function logout()
 {
