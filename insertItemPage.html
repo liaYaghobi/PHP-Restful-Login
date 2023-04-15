@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <Title>Insert Items</Title>
+    <style>
+      .buttonSubmitItem
+       {
+        background-color: #8cce8e; /* Green */
+        border-radius: 19px;
+        width: 80px;
+        height: 40px;
+        
+      }
+      .add-tag-button{
+        background-color: lightskyblue;
+        border-radius: 7px;
+  
+      }
+      h2 {
+         font-size: 2em; /* Change the font size to 2 times the default size */
+         font-weight: bold; /* Make the text bold */
+         margin-top: 1.5em; /* Add some top margin */
+         margin-bottom: 1em; /* Add some bottom margin */
+
+}
+    </style>
+  </head>
+  <body>
+   
+    <h2>Insert Items</h2>
+    <form class="itemform" onsubmit="return false;">
+
+      <input type="hidden" name="crud_req" value="submitItem">
+      <input type="text" id="item_name" name="item_name" placeholder="Title"><br><br>
+      <input type="text" id="tags-input" name="tags-input" placeholder="Category">
+      <button id="add-tag-button" class="add-tag-button">Add Category</button>
+      <ul id="categoryList"></ul>
+      <br>
+      <input type="text" id="item_description" name="description" placeholder="Description"><br><br>
+      <input type="number" id="item_price" name="price" placeholder="Price" step="0.01" min="0"><br><br>
+      <button class="buttonSubmitItem" type="submit" name="buttonSubmitItem">Submit</button>
+    </form>
+
+    <br><br>
+    <script src="insertItemPage.js" defer></script>
+  </body>
+</html>

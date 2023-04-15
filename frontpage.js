@@ -41,7 +41,7 @@ login.addEventListener('click', () => {
             console.log(document.cookie)
             alert(data)
             if (status == 200)
-            location.href = "frontpage.html"
+            location.href = "insertItemPage.html"
         })
         .catch(err => {
 
@@ -58,7 +58,6 @@ register.addEventListener('click', () => {
     var status
     fetch('api.php', {
             'method': 'POST',
-          
             'body': formData,
             mode: 'cors',
             credentials: 'include'
