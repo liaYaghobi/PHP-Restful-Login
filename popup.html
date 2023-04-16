@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body {
+                line-height: 1;
+            }
+            .reviewform {
+                display: flex;
+                 flex-direction: column;
+                  align-items: center;
+                   height: 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <div style="display: flex; flex-direction: column; align-items: center; height: 100%;">
+            <h2>Leave a Review!</h2>
+            <form class="reviewform" id="reviewform">
+                <label for="rating">Rating:</label>
+                <select id="rating" name="rating">
+                    <option value="excellent">Excellent</option>
+                    <option value="good">Good</option>
+                    <option value="fair">Fair</option>
+                    <option value="poor">Poor</option>
+                </select>
+                <textarea id="textreview" name="textreview" rows="5" cols="50"></textarea>
+                <input type="hidden" name="crud_req" value="review">
+                <button class="buttonreview" type="submit" name="submit">Submit</button>
+            </form>
+        </div>
+        <script src="popup.js"></script>
+    </body>
+</html>
