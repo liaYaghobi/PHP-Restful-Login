@@ -21,6 +21,7 @@ initialize.addEventListener('click', () => {
 const login = document.querySelector('.buttonlogin')
 login.addEventListener('click', () => {
     const formData = new FormData(document.querySelector('.loginform'))
+
     var status
     fetch('api.php', {
             'method': 'POST',
@@ -40,7 +41,7 @@ login.addEventListener('click', () => {
             console.log(document.cookie)
             alert(data)
             if (status == 200)
-            location.href = "frontpage.html"
+            location.href = "insertItemPage.html"
         })
         .catch(err => {
 
@@ -57,7 +58,6 @@ register.addEventListener('click', () => {
     var status
     fetch('api.php', {
             'method': 'POST',
-          
             'body': formData,
             mode: 'cors',
             credentials: 'include'
@@ -100,7 +100,7 @@ function validateInput(){
     if (pass1 !== pass2){
         document.getElementById('pass').value = '';
         document.getElementById('confirm_pass').value = '';
-        alert("Passwords do not match. Please try again.");
+        alert('Passwords dont match, please try again.');
         return false;
     }
     return true;

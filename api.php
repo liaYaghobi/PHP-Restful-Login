@@ -108,6 +108,7 @@ function login($conn)
             setcookie('user', $key);
             http_response_code(200);
             echo 'Welcome ' . $username;
+            
         } else {
             http_response_code(401);
             echo "Invalid username or password"; 
