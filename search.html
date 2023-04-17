@@ -14,8 +14,20 @@
             transform: translate(-50%, -50%);
         }
     </style>
+    <link rel="stylesheet" href="navbar.css">
   </head>
   <body>
+    <nav>
+        <div class="nav-container">
+          <div class="logo">
+            <a href="#">My Site</a>
+          </div>
+          <ul class="nav-links">
+            <li><a href="search.html">Search</a></li>
+            <li><a href="insertItemPage.html">Insert Item</a></li>
+          </ul>
+        </div>
+    </nav>
     <h1>Search Items by Category</h1>
     <form class="search-form" id="search-form">
     <input type="hidden" name="crud_req" value="search">

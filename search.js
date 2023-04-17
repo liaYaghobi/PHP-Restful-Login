@@ -34,8 +34,7 @@ event.preventDefault();
             const left = (screen.width / 2) - (width / 2);
             const top = (screen.height / 2) - (height / 2);
             //prevent resizing?
-            const popup = window.open('popup.html', '', `width=${width},height=${height},left=${left},top=${top}`);
-            popup.focus();
+            const popup = window.open(`popup.html?itemId=${row.item_id}&username=${row.username}`, '', `width=${width},height=${height},left=${left},top=${top}`);
         })
     }
     const existingTable = document.querySelector('table');

@@ -222,35 +222,41 @@ function review($conn) {
 
     if (isset($_SESSION['logged_in']) && $_SESSION['logged_in']) {
         
-        $username = $_SESSION['user'];
-        $stmt = $conn->prepare("SELECT COUNT(*) AS count FROM reviews WHERE username=? AND created_at=?");
-        $stmt->bind_param("ss", $username, $created_at);
-        
-        $created_at = date("Y-m-d");
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $row = $result->fetch_assoc();
-        $count = $row['count'];
-        
-        if($count < 3){
-            $stmt = $conn->prepare("INSERT INTO reviews (username, item_id, rating, review, created_at) VALUES (?, ?, ?, ?, ?)");
-            $stmt->bind_param("sssss", $username, $item_id, $rating, $review, $created_at);
+        if($_POST["username"] != $_SESSION["user"]){
+            $username = $_SESSION['user'];
+            $stmt = $conn->prepare("SELECT COUNT(*) AS count FROM reviews WHERE username=? AND created_at=?");
+            $stmt->bind_param("ss", $username, $created_at);
             
-            $item_id = "test";
-            $rating = $_POST["rating"];
-            $review = $_POST["textreview"];
+            $created_at = date("Y-m-d");
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $row = $result->fetch_assoc();
+            $count = $row['count'];
             
-            if ($stmt->execute()) {
-                http_response_code(200);
-                echo "Review added successfully";
-            } else {
-                http_response_code(500);
-                echo "Error leaving review: " . $stmt->error;
+            if($count < 3){
+                $stmt = $conn->prepare("INSERT INTO reviews (username, item_id, rating, review, created_at) VALUES (?, ?, ?, ?, ?)");
+                $stmt->bind_param("sssss", $username, $item_id, $rating, $review, $created_at);
+                
+                $item_id = $_POST["item_id"];
+                $rating = $_POST["rating"];
+                $review = $_POST["textreview"];
+                
+                if ($stmt->execute()) {
+                    http_response_code(200);
+                    echo "Review added successfully";
+                } else {
+                    http_response_code(500);
+                    echo "Error leaving review: " . $stmt->error;
+                }
+            }
+            else{
+                http_response_code(400);
+                echo "You have already reviewed 3 items today";
             }
         }
-        else{
-            http_response_code(400);
-            echo "You have already reviewed 3 items today";
+        else {
+            http_response_code(401);
+            echo "You can't leave a review for your own item!";
         }
     } 
     else {
