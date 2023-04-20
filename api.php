@@ -221,9 +221,18 @@ function review($conn) {
     $txt = $_POST['textreview'];
 
     if (isset($_SESSION['logged_in']) && $_SESSION['logged_in']) {
-        
-        if($_POST["username"] != $_SESSION["user"]){
-            $username = $_SESSION['user'];
+        $username = $_SESSION['user'];
+        $itemId = $_POST["item_id"];
+
+        // Get the item's owner
+        $stmt = $conn->prepare("SELECT username FROM items WHERE item_id = ?");
+        $stmt->bind_param("i", $itemId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        $itemOwner = $row['username'];
+
+        if($username != $itemOwner){
             $stmt = $conn->prepare("SELECT COUNT(*) AS count FROM reviews WHERE username=? AND created_at=?");
             $stmt->bind_param("ss", $username, $created_at);
             
@@ -265,6 +274,7 @@ function review($conn) {
         echo "You must be logged in to leave a review.";
     }
 }
+
 
 function logout()
 {
