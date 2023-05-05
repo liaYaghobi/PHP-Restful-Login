@@ -29,8 +29,8 @@ else if ($_SERVER['REQUEST_METHOD'] == 'GET' && $_GET['crud_req'] == 'search') {
 else if ($_SERVER['REQUEST_METHOD'] == 'GET' && $_GET['crud_req'] == 'phase3num1') {
     queryOne($conn);
 }
-else if ($_SERVER['REQUEST_METHOD'] == 'GET' && $_GET['crud_req'] == 'phase3num2') {
-    queryTwo($conn);
+else if ($_SERVER['REQUEST_METHOD'] == 'GET' && $_GET['crud_req'] == 'phase3num7') {
+    querySeven($conn);
 }
 elseif ($_SERVER['REQUEST_METHOD'] == 'GET'){
     logout();
@@ -317,7 +317,7 @@ function queryOne($conn) {
     echo json_encode($rows);
 }
 
-function queryTwo($conn) {
+function querySeven($conn) {
     // Query categories with their highest priced items
     $stmt = $conn->prepare("
     SELECT DISTINCT username

@@ -34,9 +34,9 @@ queryOne.addEventListener('click', () => {
     .catch(error => console.error(error));
 });
 
-let queryTwo = document.getElementById("num_two");
-queryTwo.addEventListener('click', () => {
-    fetch(`api.php?crud_req=phase3num2`, {
+let querySeven = document.getElementById("num_seven");
+querySeven.addEventListener('click', () => {
+    fetch(`api.php?crud_req=phase3num7`, {
         method: 'GET',
         mode: 'cors',
         credentials: 'include'
@@ -63,3 +63,5 @@ queryTwo.addEventListener('click', () => {
       })
       .catch(error => console.error(error));
   });
+
+
