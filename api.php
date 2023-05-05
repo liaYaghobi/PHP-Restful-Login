@@ -1,4 +1,5 @@
 <?php
+
 // Set this header according to where your frontend is running
 header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Methods: GET,POST,PUT,PATCH,DELETE");
@@ -24,6 +25,12 @@ else if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['crud_req'] == 'review')
 }
 else if ($_SERVER['REQUEST_METHOD'] == 'GET' && $_GET['crud_req'] == 'search') {
     search($conn);
+}
+else if ($_SERVER['REQUEST_METHOD'] == 'GET' && $_GET['crud_req'] == 'phase3num1') {
+    queryOne($conn);
+}
+else if ($_SERVER['REQUEST_METHOD'] == 'GET' && $_GET['crud_req'] == 'phase3num2') {
+    queryTwo($conn);
 }
 elseif ($_SERVER['REQUEST_METHOD'] == 'GET'){
     logout();
@@ -264,6 +271,73 @@ function review($conn) {
         http_response_code(401);
         echo "You must be logged in to leave a review.";
     }
+}
+
+function queryOne($conn) {
+    // Query categories with their highest priced items
+    $stmt = $conn->prepare("
+    SELECT 
+        t1.category, 
+        t2.item_name, 
+        t2.price 
+    FROM 
+        (
+            SELECT DISTINCT 
+                SUBSTRING_INDEX(SUBSTRING_INDEX(categories, ',', n), ',', -1) AS category
+            FROM items
+            JOIN (
+                SELECT 1 n 
+                UNION ALL
+                SELECT n + 1 
+                FROM (
+                    SELECT MAX(CHAR_LENGTH(categories) - CHAR_LENGTH(REPLACE(categories, ',', ''))) AS mx 
+                    FROM items
+                ) t
+                JOIN (
+                    SELECT 1 n UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 
+                    UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 
+                    UNION ALL SELECT 9 UNION ALL SELECT 10
+                ) nums ON n <= t.mx
+            ) nums ON CHAR_LENGTH(categories) - CHAR_LENGTH(REPLACE(categories, ',', '')) >= n - 1
+        ) t1 
+    JOIN items t2 ON FIND_IN_SET(t1.category, t2.categories)
+        AND t2.price = (SELECT MAX(price) FROM items WHERE FIND_IN_SET(t1.category, categories))
+    ORDER BY t2.price DESC;
+    ");
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    // Check if any results found
+    if ($result->num_rows == 0) {
+        echo "No categories found";
+        exit();
+    }
+
+    $rows = $result->fetch_all(MYSQLI_ASSOC);
+    echo json_encode($rows);
+}
+
+function queryTwo($conn) {
+    // Query categories with their highest priced items
+    $stmt = $conn->prepare("
+    SELECT DISTINCT username
+    FROM user
+    WHERE username NOT IN (
+        SELECT DISTINCT username
+        FROM reviews
+        WHERE rating = 'poor'
+    ); 
+    ");
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    // Check if any results found
+    if ($result->num_rows == 0) {
+        echo "No Users were Found";
+        exit();
+    }
+    $rows = $result->fetch_all(MYSQLI_ASSOC);
+    echo json_encode($rows);
 }
 
 function logout()
