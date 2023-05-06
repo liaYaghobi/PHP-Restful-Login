@@ -32,6 +32,15 @@ else if ($_SERVER['REQUEST_METHOD'] == 'GET' && $_GET['crud_req'] == 'phase3num1
 else if ($_SERVER['REQUEST_METHOD'] == 'GET' && $_GET['crud_req'] == 'phase3num7') {
     querySeven($conn);
 }
+else if ($_SERVER['REQUEST_METHOD'] == 'GET' && $_GET['crud_req'] == 'phase3num8') {
+    queryEight($conn);
+}
+else if ($_SERVER['REQUEST_METHOD'] == 'GET' && $_GET['crud_req'] == 'phase3num9') {
+    queryNine($conn);
+}
+else if ($_SERVER['REQUEST_METHOD'] == 'GET' && $_GET['crud_req'] == 'phase3num10') {
+    queryTen($conn);
+}
 elseif ($_SERVER['REQUEST_METHOD'] == 'GET'){
     logout();
 }
@@ -333,13 +342,101 @@ function querySeven($conn) {
 
     // Check if any results found
     if ($result->num_rows == 0) {
-        echo "No Users were Found";
-        exit();
+        $rows = array(array("message" => "No users found"));
+    } else {
+        $rows = $result->fetch_all(MYSQLI_ASSOC);
     }
-    $rows = $result->fetch_all(MYSQLI_ASSOC);
+    
     echo json_encode($rows);
 }
 
+function queryEight($conn) {
+    // Query categories with their highest priced items
+    $stmt = $conn->prepare("
+    SELECT DISTINCT username
+    FROM reviews
+    WHERE rating = 'poor'
+    AND username NOT IN (
+        SELECT username
+        FROM reviews
+        WHERE rating != 'poor'
+    ); 
+    ");
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    // Check if any results found
+    if ($result->num_rows == 0) {
+        $rows = array(array("message" => "No users found"));
+    } else {
+        $rows = $result->fetch_all(MYSQLI_ASSOC);
+    }
+    
+    echo json_encode($rows);
+    
+}
+function queryNine($conn) {
+    // Query categories with their highest priced items
+    $stmt = $conn->prepare("
+    SELECT DISTINCT i.username
+    FROM items i
+    LEFT JOIN reviews r ON i.item_id = r.item_id
+    WHERE i.username NOT IN (
+        SELECT DISTINCT i.username
+        FROM items i
+        INNER JOIN reviews r ON i.item_id = r.item_id
+        WHERE r.rating = 'poor'
+    )
+    ");
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    // Check if any results found
+    if ($result->num_rows == 0) {
+        $rows = array(array("message" => "No users found"));
+    } else {
+        $rows = $result->fetch_all(MYSQLI_ASSOC);
+    }
+    
+    echo json_encode($rows);
+    
+}
+
+function queryTen($conn) {
+    // Query categories with their highest priced items
+    $stmt = $conn->prepare("
+    SELECT t1.user_posted, t1.user_reviewed
+    FROM (
+        SELECT items.username AS user_posted, reviews.username AS user_reviewed, COUNT(DISTINCT reviews.item_id) AS reviewed_items_count
+        FROM items
+        INNER JOIN reviews ON items.item_id = reviews.item_id
+        WHERE reviews.username <> items.username AND reviews.rating = 'excellent'
+        GROUP BY items.username, reviews.username
+        HAVING reviewed_items_count = (SELECT COUNT(*) FROM items i WHERE i.username = items.username)
+    ) AS t1
+    INNER JOIN (
+        SELECT items.username AS user_posted, reviews.username AS user_reviewed, COUNT(DISTINCT reviews.item_id) AS reviewed_items_count
+        FROM items
+        INNER JOIN reviews ON items.item_id = reviews.item_id
+        WHERE reviews.username <> items.username AND reviews.rating = 'excellent'
+        GROUP BY items.username, reviews.username
+        HAVING reviewed_items_count = (SELECT COUNT(*) FROM items i WHERE i.username = items.username)
+    ) AS t2 ON t1.user_posted = t2.user_reviewed AND t1.user_reviewed = t2.user_posted
+    WHERE t1.user_posted < t1.user_reviewed;    
+    ");
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    // Check if any results found
+    if ($result->num_rows == 0) {
+        $rows = array(array("message" => "No users found"));
+    } else {
+        $rows = $result->fetch_all(MYSQLI_ASSOC);
+    }
+    
+    echo json_encode($rows);
+    
+}
 function logout()
 {
     if (!isset($_COOKIE['user'])) {
@@ -352,3 +449,5 @@ function logout()
     echo "Logging out..."; 
     exit();
 }
+
+
