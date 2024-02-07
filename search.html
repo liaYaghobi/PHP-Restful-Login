@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Search Items by Category</title>
+    <style>
+        table tr:hover {
+            background-color: gray;
+            cursor: pointer;
+        }
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+    <link rel="stylesheet" href="navbar.css">
+  </head>
+  <body>
+    <nav>
+        <div class="nav-container">
+          <div class="logo">
+            <a href="#">My Site</a>
+          </div>
+          <ul class="nav-links">
+            <li ><a href="search.html">Search</a></li>
+            <li><a href="insertItemPage.html">Insert Item</a></li>
+            <li><a href="testQueries.html">Test Queries</a></li>
+          </ul>
+        </div>
+    </nav>
+    <h1>Search Items by Category</h1>
+    <form class="search-form" id="search-form">
+    <input type="hidden" name="crud_req" value="search">
+      <label class = "labelstyle" for="category">Category:</label>
+      <input type="text" id="category" name="category" required>
+      <button class="submitsearch" type="submit">Search</button>
+    </form>
+    <div id="search-results"></div>
+    <script src="search.js"></script>
+  </body>
+</html>

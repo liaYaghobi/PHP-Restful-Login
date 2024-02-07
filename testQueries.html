@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Search Items by Category</title>
+    <style>
+      .q1 {
+        display: flex;
+        flex-basis: 50%;
+      }
+      .queries {
+        display: flex;
+      }
+      .testButton {
+        width: 80px;
+        height: 25px;
+        background-color: lightskyblue;
+        border-radius: 7px;
+        margin-top: 16px;
+        margin-left: 10px;
+      }
+      h4 {
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      #query_results {
+        min-width: 500px;
+        flex-grow: 1;
+      }
+    </style>
+    <link rel="stylesheet" href="navbar.css">
+  </head>
+  <body>
+    <nav>
+      <div class="nav-container">
+        <div class="logo">
+          <a href="#">My Site</a>
+        </div>
+        <ul class="nav-links">
+          <li><a href="search.html">Search</a></li>
+          <li><a href="insertItemPage.html">Insert Item</a></li>
+          <li><a href="testQueries.html">Test Queries</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="queries">
+      <div>
+        <div class="q1">
+          <h4>1) Most expensive items in each category</h4>
+          <button id="num_one" class="testButton">Test</button>
+        </div>
+        <div class="q1">
+          <h4>7) Display all the users who never posted a "poor" review. </h4>
+          <button id="num_seven" class="testButton">Test</button>
+        </div>
+        <div class="q1">
+          <h4>8) Display all the users who left some reviews, but each of them is "poor" </h4>
+          <button id="num_eight" class="testButton">Test</button>
+        </div>
+        <div class="q1">
+          <h4>9)Display users where each item they posted has never received any "poor" reviews.</h4>
+          <button id="num_nine" class="testButton">Test</button>
+        </div>
+        <div class="q1">
+          <h4>10)User pairs who gave each other "excellent" reviews for every
+            item they posted</h4>
+          <button id="num_ten" class="testButton">Test</button>
+        </div>
+      </div>
+      <div id="query_results"></div>
+    </div>
+    <script src="testQueries.js"></script>
+  </body>
+</html>

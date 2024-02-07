@@ -1,70 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
-
+  <head>
     <style>
-
-.buttonregister {
-  background-color: #8cce8e; /* Green */
-  border-radius: 19px;
-  width:80px;
-  height:40px;
-}
-.buttonlogin {
-  background-color: #8cce8e; /* Green */
-  border-radius: 19px;
-  width:80px;
-  height:40px;
-}
-.logout {
-  background-color: #e36046; /* Green */
-  border-radius: 19px;
-  width:80px;
-  height:40px;
-}
-
-
-
+      .buttonregister,
+      .buttonlogin,
+      .logout,
+      .buttondatabase {
+        background-color: #8cce8e; /* Green */
+        border-radius: 19px;
+        width: 80px;
+        height: 40px;
+      }
+      .logout {
+        background-color: #d3575d; /* Red */
+      }
+      .buttondatabase{
+        background-color: lightskyblue;
+      }
     </style>
-    </html>
-       <head>
+  </head>
+  <body>
+    <div >
+      <form class = "dataform" onsubmit="return false;">
+        <input type="hidden" name="crud_req" value="initialize">
+        <button class="buttondatabase" type="button">Initialize Database
+        </button>
+      </form>
+    </div>
+    
+    <h2>Login</h2>
+    <form class="loginform" onsubmit="return false;">
+      <input type="text" id="login_name" name="user_names" placeholder="Username"><br><br>
+      <input type="password" id="login_pass" name="passwords" placeholder="Password">
+      <input type="hidden" name="crud_req" value="login">
+      <br><br>
+      <button class="buttonlogin" type="submit" name="submit">Login</button>
+      <button class="logout">Logout</button>
+    </form>
 
-    </head>
-    <body>
-   </br> 
-       <h2>Returning user? Enter username and password:</h2>
-          <form class = "loginform " onsubmit="return false;">
-             <input type="text" name="user_names">
-             <input type="password" name="passwords">
-             <div >
-                <input type="hidden" name="crud_req" value="login">
-            </div>
-             <div >
-            </br> 
-                <button class = "buttonlogin"  type="submit" name="submit">Login</button>
-            </div>
-          </form>
-          <br></br> 
-         <h2> Not registered? Input desired name and password.</h2>
-          <form class = "registerform"onsubmit="return false;">
-             <input type="text" name="user_names">
-             <input type="text" name="passwords">
-             <div >
-                <input type="hidden" id= "crud_req" name="crud_req" value="register">
-            </div>
-         </br>   
-          </form>
-       
-          <div >
-            <button class = "buttonregister" type="submit" name="submit">Register</button>
-        </div>
+    <br><br>
+    <h2>Not registered? Make an account!</h2>
+    <form class="registerform" onsubmit="return false;">
+      <input id="user" type="text" name="user_names" placeholder="Username"> <br><br>
+      <input id="pass" type="text" name="passwords" placeholder="Password">
+      <input id ="confirm_pass" type="text" name="confirm_password" placeholder="Re-type Password"><br><br>
+      <input id ="first" type="text" name="FirstName" placeholder="First name">
+      <input id ="last" type="text" name="LastName" placeholder="Lastname">
+      <input id ="email" type="text" name="email" placeholder="Email">
+      <input type="hidden" name="crud_req" value="register">
+      <br><br>
+      <button class="buttonregister" type="submit" name="submit">Register</button>
     </form>
     
-          <br></br> 
-        </br> 
-    </div>
-
-    <button class="logout" >Logout</button>
-      
-        <script src="frontpage.js" defer></script>
-       </body>
-    </html>
+    <br><br>
+    <script src="frontpage.js" defer></script>
+  </body>
+</html>
